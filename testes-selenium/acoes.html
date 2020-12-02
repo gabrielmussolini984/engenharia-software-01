@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Busão ou Taxi</title>
+  </head>
+
+  <body>
+    <form id="login-form" class="login-form" autocomplete="off" role="main">
+      <h1 class="a11y">Olá, <span id="nome-logado"></span></h1>
+      <p>Prossiga como quiser:</p>
+
+      <input type="submit" value="Usar aplicativo" />
+      <input type="submit" value="Ver Perfil" />
+      <input type="submit" value="Editar Perfil" />
+      <input type="submit" value="Deletar Perfil" />
+      <input type="submit" value="Criar Rota" />
+      <input id="editarRota" type="submit" value="Editar Rota" />
+      <input id="listarRota" type="submit" value="Listar Rota" />
+      <input id="deletarRota" type="submit" value="Deletar Rota" />
+    </form>
+    <script>
+      const usuario = JSON.parse(localStorage.getItem("session"));
+      const rota = JSON.parse(localStorage.getItem("rota"));
+      const nome = document.getElementById("nome-logado");
+      if (usuario) nome.innerHTML = usuario.name;
+      var serializeForm = function (form) {
+        var obj = {};
+        var formData = new FormData(form);
+        for (var key of formData.keys()) {
+          obj[key] = formData.get(key);
+        }
+        return obj;
+      };
+      const form = document.getElementById("login-form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log();
+        if (e.submitter.value == "Ver Perfil")
+          window.location.href = "/verPerfil.html";
+        if (e.submitter.value == "Editar Perfil")
+          window.location.href = "/editarPerfil.html";
+        if (e.submitter.value == "Deletar Perfil") {
+          axios
+            .delete(`http://localhost:3000/usuario/${usuario.email}`)
+            .then((response) => {
+              console.log(response);
+              Swal.fire({
+                icon: "success",
+                title: response.data.message,
+              }).then((result) => {
+                localStorage.clear();
+                window.location.href = "/index.html";
+              });
+            })
+            .catch((err) => {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: err.response.data.message,
+              });
+            });
+        }
+        if (e.submitter.value == "Criar Rota")
+          window.location.href = "/criarRota.html";
+        if (e.submitter.value == "Editar Rota")
+          window.location.href = "/editarRota.html";
+        if (e.submitter.value == "Listar Rota")
+          window.location.href = "/verRota.html";
+        if (e.submitter.value == "Deletar Rota"){
+          axios
+            .delete(`http://localhost:3000/rota/${usuario.email}`)
+            .then((response) => {
+              console.log(response);
+              Swal.fire({
+                icon: "success",
+                title: response.data.message,
+              }).then((result) => {
+                localStorage.removeItem('rota');
+                window.location.href = "/acoes.html";
+              });
+            })
+            .catch((err) => {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: err.response.data.message,
+              });
+            });
+        }
+          
+      });
+
+      if (!rota) {
+        const editarRota = document.getElementById("editarRota");
+        const listarRota = document.getElementById("listarRota");
+        const deletarRota = document.getElementById("deletarRota");
+        editarRota.setAttribute('disabled', '')
+        listarRota.setAttribute('disabled', '')
+        deletarRota.setAttribute('disabled', '')
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Busão ou Taxi</title>
+  </head>
+
+  <body>
+    <form id="rota-form" class="login-form" autocomplete="off">
+      <h1 class="a11y-hidden">Editar Rota</h1>
+      <div>
+        <label class="label-name">
+          <input
+            type="text"
+            class="text"
+            name="endereco_atual"
+            placeholder="Digite onde você está"
+            tabindex="1"
+            disabled
+          />
+          <span class="required">Endereço Atual:</span>
+        </label>
+      </div>
+      <div>
+        <label class="label-cpf">
+          <input
+            type="text"
+            class="text"
+            name="endereco_final"
+            placeholder="Digite para onde gostaria de ir"
+            disabled
+            tabindex="1"
+          />
+          <span class="required">Endereço Destino:</span>
+        </label>
+      </div>
+      
+      <input type="submit" value="Voltar" />
+    </form>
+
+    <script>
+      
+      const form = document.getElementById("rota-form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const usuario = JSON.parse(localStorage.getItem("session"))
+
+        if (e.submitter.value == "Voltar")
+          window.location.href = "/acoes.html";
+      });
+
+      const rota = JSON.parse(localStorage.getItem("rota"));
+      const formulario = document.getElementById("rota-form");
+      formulario[0].value = rota.endereco_atual
+      formulario[1].value = rota.endereco_destino
+    </script>
+  </body>
+</html>

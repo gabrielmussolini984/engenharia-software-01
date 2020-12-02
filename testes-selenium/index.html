@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Busão ou Taxi</title>
+</head>
+
+<body>
+
+  <form id="login-form" class="login-form" autocomplete="off" role="main">
+    <h1 class="a11y-hidden">Login Form</h1>
+    
+    <input type="submit" value="Entrar no Sistema" />
+    <input type="submit" value="Registrar no Sistema" />
+    <figure aria-hidden="true">
+      <div class="person-body"></div>
+      <div class="neck skin"></div>
+      <div class="head skin">
+        <div class="eyes"></div>
+        <div class="mouth"></div>
+      </div>
+      <div class="hair"></div>
+      <div class="ears"></div>
+      <div class="shirt-1"></div>
+      <div class="shirt-2"></div>
+    </figure>
+  </form>
+  <script>
+    var serializeForm = function (form) {
+      var obj = {};
+      var formData = new FormData(form);
+      for (var key of formData.keys()) {
+        obj[key] = formData.get(key);
+      }
+      return obj;
+    };
+    const form = document.getElementById("login-form");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      console.log()
+      if (e.submitter.value == "Entrar no Sistema")
+        window.location.href = "/loginForm.html"
+      if (e.submitter.value == "Registrar no Sistema")
+        window.location.href = "/register.html"
+    });
+  </script>
+</body>
+
+</html>

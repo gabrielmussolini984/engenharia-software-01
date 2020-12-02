@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Busão ou Taxi</title>
+  </head>
+
+  <body>
+    
+    <form id="login-form" class="login-form" autocomplete="off" role="main">
+      <h1 class="a11y"><span id="nome-logado"></span></h1>
+
+      <input type="submit" value="Voltar" />
+    </form>
+    <script>
+      var serializeForm = function (form) {
+        var obj = {};
+        var formData = new FormData(form);
+        for (var key of formData.keys()) {
+          obj[key] = formData.get(key);
+        }
+        return obj;
+      };
+      const form = document.getElementById("login-form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log();
+        if (e.submitter.value == "Voltar") window.location.href = "/acoes.html";
+      });
+      const usuario = JSON.parse(localStorage.getItem("session"));
+
+      const nome = document.getElementById("nome-logado");
+      nome.innerHTML = `Nome: ${usuario.name} <br> Email: ${usuario.email} <br> CPF: ${usuario.cpf} <br> Pontos: ${usuario.pontos}`;
+    </script>
+  </body>
+</html>

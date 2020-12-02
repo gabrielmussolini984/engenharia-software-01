@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Busão ou Taxi</title>
+  </head>
+
+  <body>
+    <form id="login-form" class="login-form" autocomplete="off">
+      <h1 class="a11y-hidden">Login Form</h1>
+      <div>
+        <label class="label-name">
+          <input
+            type="text"
+            class="text"
+            name="name"
+            placeholder="Digite seu nome"
+            tabindex="1"
+          />
+          <span class="required">Nome:</span>
+        </label>
+      </div>
+      <div>
+        <label class="label-cpf">
+          <input
+            type="text"
+            class="text"
+            name="cpf"
+            placeholder="Digite seu cpf"
+            tabindex="1"
+          />
+          <span class="required">CPF:</span>
+        </label>
+      </div>
+      <div>
+        <label class="label-email">
+          <input
+            type="text"
+            class="text"
+            name="email"
+            placeholder="Digite seu email"
+            tabindex="1"
+          />
+          <span class="required">Email:</span>
+        </label>
+      </div>
+      <div>
+        <label class="label-senha">
+          <input
+            type="text"
+            class="text"
+            name="senha"
+            placeholder="Digite sua senha"
+            tabindex="1"
+          />
+          <span class="required">Senha:</span>
+        </label>
+      </div>
+      <div>
+        <label class="label-repetir_senha">
+          <input
+            type="text"
+            class="text"
+            name="repetir_senha"
+            placeholder="Digite sua senha novamente"
+            tabindex="1"
+          />
+          <span class="required">Confirme sua senha:</span>
+        </label>
+      </div>
+      <div>
+        <label class="label-login">
+          <input
+            type="text"
+            class="text"
+            name="login"
+            placeholder="Digite seu nome de usuario"
+            tabindex="1"
+          />
+          <span class="required">Login:</span>
+        </label>
+      </div>
+      <input type="submit" value="Cadastrar Usuário" />
+      <figure aria-hidden="true">
+        <div class="person-body"></div>
+        <div class="neck skin"></div>
+        <div class="head skin">
+          <div class="eyes"></div>
+          <div class="mouth"></div>
+        </div>
+        <div class="hair"></div>
+        <div class="ears"></div>
+        <div class="shirt-1"></div>
+        <div class="shirt-2"></div>
+      </figure>
+    </form>
+
+    <script>
+      var serializeForm = function (form) {
+        var obj = {};
+        var formData = new FormData(form);
+        for (var key of formData.keys()) {
+          obj[key] = formData.get(key);
+        }
+        return obj;
+      };
+
+      const form = document.getElementById("login-form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const data = serializeForm(e.target);
+        axios
+          .post("http://localhost:3000/usuario", data)
+          .then((response) => {
+            Swal.fire({
+              icon: "success",
+              title: response.data.message,
+              text: `Nome: ${response.data.usuario.name} - Email: ${response.data.usuario.email}`,
+            }).then(result => {
+              window.location.href = "/index.html";
+            })
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.response.data.message,
+            });
+          });
+        form.reset();
+      });
+    </script>
+  </body>
+</html>
